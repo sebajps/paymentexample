@@ -22,7 +22,6 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-
 <section>
-  <p>{l s='Add some details about the payment option' mod='mypaymentmodule'}</p>
+  <p>{l s='The details about the payment option' d='Modules.Paymentexample.Info'}</p>
 </section>

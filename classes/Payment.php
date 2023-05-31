@@ -23,21 +23,19 @@
  *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *  International Registered Trademark & Property of PrestaShop SA
  */
-
 namespace PrestaShop\Module\PaymentExample;
 
 class Payment extends AbstractPayment
 {
-
     public function getOfflinePaymentOption()
     {
-        $offlineOption = new \PrestaShop\PrestaShop\Core\Payment\PaymentOption();
-        $offlineOption->setCallToActionText($this->trans('Pay offline', [], 'Modules.Paymentexample.Payment'))
+        $result = new \PrestaShop\PrestaShop\Core\Payment\PaymentOption();
+        $result->setCallToActionText($this->trans('Pay offline', [], 'Modules.Paymentexample.Payment'))
             ->setAction($this->context->link->getModuleLink($this->module->name, 'validation', [], true))
-            ->setAdditionalInformation($this->context->smarty->fetch('module:paymentexample/views/templates/front/payment_infos.tpl'))
-            ->setLogo(\Media::getMediaPath(_PS_MODULE_DIR_ . $this->module->name . '/payment.jpg'));
+            ->setAdditionalInformation($this->context->smarty->fetch('module:paymentexample/views/templates/frontend/info.tpl'))
+            ->setLogo(\Media::getMediaPath(_PS_MODULE_DIR_ . $this->module->name . '/payment.png'));
 
-        return $offlineOption;
+        return $result;
     }
 
     // public function getExternalPaymentOption()
@@ -53,7 +51,7 @@ class Payment extends AbstractPayment
     //                         ],
     //                     ])
     //                    ->setAdditionalInformation($this->context->smarty->fetch('module:paymentexample/views/templates/front/payment_infos.tpl'))
-    //                    ->setLogo(Media::getMediaPath(_PS_MODULE_DIR_.$this->name.'/payment.jpg'));
+    //                    ->setLogo(Media::getMediaPath(_PS_MODULE_DIR_.$this->name.'/payment.png'));
 
     //     return $externalOption;
     // }
@@ -64,7 +62,7 @@ class Payment extends AbstractPayment
     //     $embeddedOption->setCallToActionText($this->l('Pay embedded'))
     //                    ->setForm($this->generateForm())
     //                    ->setAdditionalInformation($this->context->smarty->fetch('module:paymentexample/views/templates/front/payment_infos.tpl'))
-    //                    ->setLogo(Media::getMediaPath(_PS_MODULE_DIR_.$this->name.'/payment.jpg'));
+    //                    ->setLogo(Media::getMediaPath(_PS_MODULE_DIR_.$this->name.'/payment.png'));
 
     //     return $embeddedOption;
     // }
@@ -75,7 +73,7 @@ class Payment extends AbstractPayment
     //     $iframeOption->setCallToActionText($this->l('Pay iframe'))
     //                  ->setAction($this->context->link->getModuleLink($this->name, 'iframe', array(), true))
     //                  ->setAdditionalInformation($this->context->smarty->fetch('module:paymentexample/views/templates/front/payment_infos.tpl'))
-    //                  ->setLogo(Media::getMediaPath(_PS_MODULE_DIR_.$this->name.'/payment.jpg'));
+    //                  ->setLogo(Media::getMediaPath(_PS_MODULE_DIR_.$this->name.'/payment.png'));
 
     //     return $iframeOption;
     // }

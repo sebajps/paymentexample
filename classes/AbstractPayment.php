@@ -25,7 +25,8 @@
 */
 namespace PrestaShop\Module\PaymentExample;
 
-class AbstractPayment {
+class AbstractPayment
+{
     protected $module;
     protected $context;
 
