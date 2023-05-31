@@ -22,7 +22,8 @@ class ComposerStaticInita09c2f23f8f92355fac37770f56b7269
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'PrestaShop\\Module\\PaymentExample\\PaymentOptions' => __DIR__ . '/../..' . '/classes/PaymentOptions.php',
+        'PrestaShop\\Module\\PaymentExample\\AbstractPayment' => __DIR__ . '/../..' . '/classes/AbstractPayment.php',
+        'PrestaShop\\Module\\PaymentExample\\Payment' => __DIR__ . '/../..' . '/classes/Payment.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

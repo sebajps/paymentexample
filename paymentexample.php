@@ -23,7 +23,6 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
-
 if (!defined('_PS_VERSION_')) {
     exit;
 }
@@ -109,11 +108,13 @@ class PaymentExample extends PaymentModule
             return;
         }
 
+        $payment = new PrestaShop\Module\PaymentExample\Payment($this);
+
         $payment_options = [
-            $this->getOfflinePaymentOption(),
-            $this->getExternalPaymentOption(),
-            $this->getEmbeddedPaymentOption(),
-            $this->getIframePaymentOption(),
+            $payment->getOfflinePaymentOption(),
+            // $this->getExternalPaymentOption(),
+            // $this->getEmbeddedPaymentOption(),
+            // $this->getIframePaymentOption(),
         ];
 
         return $payment_options;

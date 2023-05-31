@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'PrestaShop\\Module\\PaymentExample\\PaymentOptions' => $baseDir . '/classes/PaymentOptions.php',
+    'PrestaShop\\Module\\PaymentExample\\AbstractPayment' => $baseDir . '/classes/AbstractPayment.php',
+    'PrestaShop\\Module\\PaymentExample\\Payment' => $baseDir . '/classes/Payment.php',
 );
