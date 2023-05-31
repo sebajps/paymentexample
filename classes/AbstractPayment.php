@@ -27,10 +27,12 @@ namespace PrestaShop\Module\PaymentExample;
 
 class AbstractPayment {
     protected $module;
+    protected $context;
 
     public function __construct($module)
     {
         $this->module = $module;
+        $this->context = \Context::getContext();
     }
 
     protected function trans($id, array $parameters = [], $domain = null, $locale = null)
