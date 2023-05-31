@@ -35,8 +35,13 @@ if (file_exists($autoloadPath)) {
 
 class PaymentExample extends PaymentModule
 {
+    // >>>> Main settings <<<<
+    public function isUsingNewTranslationSystem() {
+		return true;
+	}
+
     protected $_html = '';
-    protected $_postErrors = array();
+    protected $_postErrors = [];
 
     public $details;
     public $owner;
@@ -48,7 +53,7 @@ class PaymentExample extends PaymentModule
         $this->name = 'paymentexample';
         $this->tab = 'payments_gateways';
         $this->version = '1.0.0';
-        $this->ps_versions_compliancy = ['min' => '1.7', 'max' => '8.99.99'];
+        $this->ps_versions_compliancy = ['min' => '1.7.6', 'max' => '8.99.99'];
         $this->author = 'PrestaShop';
         $this->controllers = ['validation'];
         $this->is_eu_compatible = 1;
@@ -59,21 +64,31 @@ class PaymentExample extends PaymentModule
         $this->bootstrap = true;
         parent::__construct();
 
-        $this->displayName = $this->l('Payment Example');
-        $this->description = $this->l('Description of Payment Example');
+        $this->displayName = $this->trans('Payment Example', [], 'Modules.Paymentexample.Admin');
+        $this->description = $this->trans('Description of Payment Example', [], 'Modules.Paymentexample.Admin');
 
         if (!count(Currency::checkPaymentCurrencies($this->id))) {
-            $this->warning = $this->l('No currency has been set for this module.');
+            $this->warning = $this->trans('No currency has been set for this module.', [], 'Modules.Paymentexample.Admin');
         }
     }
 
     public function install()
     {
-        if (!parent::install() || !$this->registerHook('paymentOptions') || !$this->registerHook('paymentReturn')) {
-            return false;
-        }
-        return true;
+        if (extension_loaded('curl') == false) {
+			$this->_errors[] = $this->trans('You have to enable the cURL extension on your server to install this module.', [], 'Modules.Paymentexample.Admin');
+			return false;
+		}
+
+		return parent::install()
+			&& $this->registerHook('paymentOptions')
+			&& $this->registerHook('paymentReturn')
+		;
     }
+
+    public function uninstall()
+	{
+		return parent::uninstall();
+	}
 
     // public function getContent()
     // {
@@ -81,6 +96,9 @@ class PaymentExample extends PaymentModule
     //     $p::test();
     // }
 
+    // >>>> END Main settings <<<<
+
+	// >>>> Hooks <<<<
     public function hookPaymentOptions($params)
     {
         if (!$this->active) {
@@ -105,7 +123,9 @@ class PaymentExample extends PaymentModule
     {
         //
     }
+    // >>>> END Hooks <<<<
 
+    // >>>> Internal functionallity <<<<
     public function checkCurrency($cart)
     {
         $currency_order = new Currency($cart->id_currency);
@@ -118,6 +138,8 @@ class PaymentExample extends PaymentModule
                 }
             }
         }
+
         return false;
     }
+    // >>>> END Internal functionallity <<<<
 }
