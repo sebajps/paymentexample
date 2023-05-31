@@ -122,7 +122,7 @@ class PaymentExample extends PaymentModule
 
     public function hookPaymentReturn()
     {
-        //
+        return $this->context->smarty->fetch('module:' . $this->name . '/views/templates/frontend/return.tpl');
     }
     // >>>> END Hooks <<<<
 

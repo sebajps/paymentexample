@@ -23,10 +23,6 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
-
-/**
- * @since 1.5.0
- */
 class PaymentExampleValidationModuleFrontController extends ModuleFrontController
 {
     /**
@@ -41,6 +37,7 @@ class PaymentExampleValidationModuleFrontController extends ModuleFrontControlle
 
         // Check that this payment option is still available in case the customer changed his address just before the end of the checkout process
         $authorized = false;
+        
         foreach (Module::getPaymentModules() as $module) {
             if ($module['name'] == 'paymentexample') {
                 $authorized = true;
@@ -49,30 +46,31 @@ class PaymentExampleValidationModuleFrontController extends ModuleFrontControlle
         }
 
         if (!$authorized) {
-            die($this->module->l('This payment method is not available.', 'validation'));
+            die($this->module->getTranslator()->trans('This payment method is not available.', [], 'Modules.Paymentexample.Validation'));
         }
 
         $this->context->smarty->assign([
             'params' => $_REQUEST,
         ]);
 
-        //$this->setTemplate('payment_return.tpl');
-        $this->setTemplate('module:paymentexample/views/templates/front/payment_return.tpl');
+        $this->setTemplate('module:paymentexample/views/templates/frontend/validation.tpl');
 
+        $customer = new Customer($cart->id_customer);
+        
+        if (!Validate::isLoadedObject($customer)) {
+            Tools::redirect('index.php?controller=order&step=1');
+        }
 
-        // $customer = new Customer($cart->id_customer);
-        // if (!Validate::isLoadedObject($customer))
-        //     Tools::redirect('index.php?controller=order&step=1');
-
-        // $currency = $this->context->currency;
-        // $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
-        // $mailVars = array(
+        $currency = $this->context->currency;
+        $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
+        $mailVars = [];
+        // $mailVars = [
         //     '{bankwire_owner}' => Configuration::get('BANK_WIRE_OWNER'),
         //     '{bankwire_details}' => nl2br(Configuration::get('BANK_WIRE_DETAILS')),
         //     '{bankwire_address}' => nl2br(Configuration::get('BANK_WIRE_ADDRESS'))
-        // );
+        // ];
 
-        // $this->module->validateOrder($cart->id, Configuration::get('PS_OS_BANKWIRE'), $total, $this->module->displayName, NULL, $mailVars, (int)$currency->id, false, $customer->secure_key);
-        // Tools::redirect('index.php?controller=order-confirmation&id_cart='.$cart->id.'&id_module='.$this->module->id.'&id_order='.$this->module->currentOrder.'&key='.$customer->secure_key);
+        $this->module->validateOrder($cart->id, Configuration::get('PS_OS_COD_VALIDATION'), $total, $this->module->displayName, NULL, $mailVars, (int)$currency->id, false, $customer->secure_key);
+        Tools::redirect('index.php?controller=order-confirmation&id_cart='.$cart->id.'&id_module='.$this->module->id.'&id_order='.$this->module->currentOrder.'&key='.$customer->secure_key);
     }
 }
