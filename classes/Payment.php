@@ -25,11 +25,13 @@
  */
 namespace PrestaShop\Module\PaymentExample;
 
+use PrestaShop\PrestaShop\Core\Payment\PaymentOption;
+
 class Payment extends AbstractPayment
 {
     public function getOfflinePaymentOption()
     {
-        $result = new \PrestaShop\PrestaShop\Core\Payment\PaymentOption();
+        $result = new PaymentOption();
         $result->setCallToActionText($this->trans('Pay offline', [], 'Modules.Paymentexample.Payment'))
             ->setAction($this->context->link->getModuleLink($this->module->name, 'validation', [], true))
             ->setAdditionalInformation($this->context->smarty->fetch('module:paymentexample/views/templates/frontend/info.tpl'))
@@ -40,14 +42,14 @@ class Payment extends AbstractPayment
 
     // public function getExternalPaymentOption()
     // {
-    //     $externalOption = new \PrestaShop\PrestaShop\Core\Payment\PaymentOption();
+    //     $externalOption = new PaymentOption();
     //     $externalOption->setCallToActionText($this->l('Pay external'))
     //                    ->setAction($this->context->link->getModuleLink($this->name, 'validation', array(), true))
     //                    ->setInputs([
     //                         'token' => [
     //                             'name' =>'token',
     //                             'type' =>'hidden',
-    //                             'value' =>'12345689',
+    //                             'value' =>'123456789',
     //                         ],
     //                     ])
     //                    ->setAdditionalInformation($this->context->smarty->fetch('module:paymentexample/views/templates/front/payment_infos.tpl'))
@@ -58,7 +60,7 @@ class Payment extends AbstractPayment
 
     // public function getEmbeddedPaymentOption()
     // {
-    //     $embeddedOption = new \PrestaShop\PrestaShop\Core\Payment\PaymentOption();
+    //     $embeddedOption = new PaymentOption();
     //     $embeddedOption->setCallToActionText($this->l('Pay embedded'))
     //                    ->setForm($this->generateForm())
     //                    ->setAdditionalInformation($this->context->smarty->fetch('module:paymentexample/views/templates/front/payment_infos.tpl'))
@@ -69,7 +71,7 @@ class Payment extends AbstractPayment
 
     // public function getIframePaymentOption()
     // {
-    //     $iframeOption = new \PrestaShop\PrestaShop\Core\Payment\PaymentOption();
+    //     $iframeOption = new PaymentOption();
     //     $iframeOption->setCallToActionText($this->l('Pay iframe'))
     //                  ->setAction($this->context->link->getModuleLink($this->name, 'iframe', array(), true))
     //                  ->setAdditionalInformation($this->context->smarty->fetch('module:paymentexample/views/templates/front/payment_infos.tpl'))
